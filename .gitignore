@@ -36,6 +36,29 @@
 *.x86_64
 *.hex
 
+# CUDA specific files
+*.ptx
+*.cubin
+*.fatbin
+*.sass
+*.compute_*
+*.sm_*
+
+# NVIDIA compiler cache
+.nv_cache/
+
+# CUDA runtime files
+*.cudafe*
+*.hash
+*.cu.cpp
+*.cu.c
+*.cudafe1.c
+*.cudafe1.cpp
+*.cudafe1.gpu
+*.cudafe2.c
+*.cudafe2.cpp
+*.cudafe2.gpu
+
 # Debug files
 *.dSYM/
 *.su
@@ -50,3 +73,22 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build directories
+build/
+dist/
+cmake-build-*/
+
+# Profiling output
+*.nvprof
+*.nvvp
+*.prof
+timeline.json
+*.qdrep
