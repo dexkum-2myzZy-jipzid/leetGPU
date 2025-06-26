@@ -2,23 +2,18 @@
 #include <cuda_runtime.h>
 
 __global__ void relu_kernel(const float* input, float* output, int N) {
-    int i = blockIdx.x * blockDim.x + threadIdx.x;
-    
-    if (i < N){
-        output[i] = fmaxf(0.0f, input[i]);
+    int tid = blockIdx.x * blockDim.x + threadIdx.x;
+
+    if(tid < N){
+        output[tid] = fmaxf(0.0f, input[tid]);
     }
 }
 
 // input, output are device pointers (i.e. pointers to memory on the GPU)
 void solve(const float* input, float* output, int N) {
-    int threadsPerBlock = 256;
-    int blocksPerGrid = (N + threadsPerBlock - 1) / threadsPerBlock;
+    dim3 blockDim1(256);
+    dim3 gridDim1((N+blockDim1.x-1)/blockDim1.x);
 
-    if (blocksPerGrid > 65535) {
-        threadsPerBlock = 1024;
-        blocksPerGrid = (N + threadsPerBlock - 1) / threadsPerBlock;
-    }
-
-    relu_kernel<<<blocksPerGrid, threadsPerBlock>>>(input, output, N);
+    relu_kernel<<<gridDim1, blockDim1>>>(input, output, N);
     cudaDeviceSynchronize();
 }
